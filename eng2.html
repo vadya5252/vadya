@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="eng.css">
+    <title>Интерактивная викторина по английскому языку</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Интерактивная викторина по английскому языку
+        (тяжелая сложность)</h1>
+        <div class="question" id="question-container">
+            <p id="question-text"></p>
+            <div class="options" id="options-container"></div>
+        </div>
+        <div class="result" id="result-container">
+            <p id="result-text"></p>
+            <p class="final-score" id="final-score"></p>
+            <button onclick="resetQuiz()">Попробовать снова</button><button><a href="index.html">Вернуться к другим тестам</a></button>
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                question: "1. Как перевести 'Я люблю читать книги'?",
+                options: ["A) I love to read books.", "B) I like reading books.", "C) I enjoy read books.", "D) I love reading books."],
+                answer: "D"
+            },
+            {
+                question: "2. Как перевести 'У него есть две сестры'?",
+                options: ["A) He has two sisters.", "B) He have two sisters.", "C) He has sister two.", "D) He have sisters two."],
+                answer: "A"
+            },
+            {
+                question: "3. Как перевести 'Мы будем дома на выходных'?",
+                options: ["A) We are home at the weekend.", "B) We will be at home on the weekend.", "C) We will be home at weekends.", "D) We will home on the weekend."],
+                answer: "B"
+            },
+            {
+                question: "4. Как перевести 'Она готовит ужин каждый вечер'?",
+                options: ["A) She cooks dinner every evening.", "B) She cook dinner every night.", "C) She is cooking dinner every evening.", "D) She is cook dinner every night."],
+                answer: "A"
+            },
+            {
+                question: "5. Как перевести 'Эти цветы очень красивые'?",
+                options: ["A) These flower are very beautiful.", "B) Those flowers are very beautiful.", "C) These flowers are very beautiful.", "D) These flower are very beautiful."],
+                answer: "C"
+            },
+            {
+                question: "6. Как перевести 'Мы идем в парк'?",
+                options: ["A) We goes to the park.", "B) We are going to the park.", "C) We going to the park.", "D) We go to a park."],
+                answer: "B"
+            },
+            {
+                question: "7. Как перевести 'Ты когда-нибудь был в Париже'?",
+                options: ["A) Have you ever been to Paris?", "B) Did you ever be in Paris?", "C) Are you ever in Paris?", "D) Have you ever be to Paris?"],
+                answer: "A"
+            },
+            {
+                question: "8. Как перевести 'Он работает в большой компании'?",
+                options: ["A) He works in a big company.", "B) He work in big company.", "C) He working in a big company.", "D) He works in the big company."],
+                answer: "A"
+            },
+            {
+                question: "9. Как перевести 'Мне нравится путешествовать'?",
+                options: ["A) I like to travel.", "B) I like traveling.", "C) I enjoys to travel.", "D) I enjoy to travel."],
+                answer: "A"
+            },
+
+            {
+                question: "10. Как перевести 'Вы можете помочь мне'?",
+                options: ["A) Can you help I?", "B) Can you help me?", "C) Can you helping me?", "D) You can help me?"],
+                answer: "B"
+            },
+            
+        ];
+
+        let currentQuestionIndex = 0;
+        let score = 0;
+
+        function loadQuestion() {
+            const currentQuestion = questions[currentQuestionIndex];
+            document.getElementById('question-text').innerText = currentQuestion.question;
+            const optionsContainer = document.getElementById('options-container');
+            optionsContainer.innerHTML = '';
+
+            currentQuestion.options.forEach((option, index) => {
+                const button = document.createElement('button');
+                button.innerText = option;
+                button.onclick = () => checkAnswer(String.fromCharCode(65 + index));
+                optionsContainer.appendChild(button);
+            });
+        }
+
+        function checkAnswer(selectedAnswer) {
+            const correctAnswer = questions[currentQuestionIndex].answer;
+            if (selectedAnswer === correctAnswer) {
+                score++;
+            }
+            currentQuestionIndex++;
+            if (currentQuestionIndex < questions.length) {
+                loadQuestion();
+            } else {
+                showResults();
+            }
+        }
+
+        function showResults() {
+            document.getElementById('question-container').style.display = 'none';
+            const resultContainer = document.getElementById('result-container');
+            resultContainer.style.display = 'block';
+            document.getElementById('result-text').innerText = 'Викторина завершена!';
+            document.getElementById('final-score').innerText = `Ваш результат: ${score} из ${questions.length}`;
+        }
+
+        function resetQuiz() {
+            currentQuestionIndex = 0;
+            score = 0;
+            document.getElementById('result-container').style.display = 'none';
+
+            document.getElementById('question-container').style.display = 'block';
+            loadQuestion();
+        }
+
+        // Запуск викторины при загрузке страницы
+        loadQuestion();
+    </script>
+</body>
+</html>

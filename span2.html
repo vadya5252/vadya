@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="span.css">
+    <title>Интерактивная викторина по испанскому языку</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Интерактивная викторина по испанскому языку
+        (тяжелая сложность)</h1>
+        <div class="question" id="question-container">
+            <p id="question-text"></p>
+            <div class="options" id="options-container"></div>
+        </div>
+        <div class="result" id="result-container">
+            <p id="result-text"></p>
+            <p class="final-score" id="final-score"></p>
+            <button onclick="resetQuiz()">Попробовать снова</button><button><a href="index.html">Вернуться к другим тестам</a></button>
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                question: "1. Как переводится 'Я люблю читать книги' на испанский?",
+                options: ["A) Me gusta leer libros", "B) Yo amo hablar libros", "C) Me encanta leer novelas", "D) Me gusta escribir libros"],
+                answer: "A"
+            },
+            {
+                question: "2. Как переводится 'н живет в большом городе' на испанский?",
+                options: ["A) Él vive en una ciudad grande", "B) Él vive en el pueblo pequeño", "C) Él está en la ciudad", "D)Él vive en una ciudad pequeña"],
+                answer: "A"
+            },
+            {
+                question: "3. Как переводится 'Мы уходим в отпуск на следующей неделе' на испанский?",
+                options: ["A) Vamos de vacaciones la próxima semana", "B) Nos quedamos en casa la próxima semana", "C) Salimos el próximo mes", "D) Vamos a trabajar la próxima semana"],
+                answer: "A"
+            },
+            {
+                question: "4. Как переводится 'Я хочу научиться готовить' на испанский?",
+                options: ["A) Quiero aprender a cocinar", "B) Quiero cocinar bien", "C) Deseo hacer comida", "D) Me gustaría aprender cocinar"],
+                answer: "B"
+            },
+            {
+                question: "5. Как переводится 'Мои друзья любят играть в футбол' на испанский?",
+                options: ["A) Mis amigos gusta jugar al fútbol", "B) A mis amigos les gusta jugar al fútbol", "C) Mis amigos juegan el fútbol", "D) Mis amigos aman jugar fútbol"],
+                answer: "A"
+            },
+            {
+                question: "6. Как переводится 'Она часто посещает своих бабушку и дедушку' на испанский?",
+                options: ["A) Ella visita a sus abuelos con frecuencia", "B) Ella a menudo va a casa de sus abuelos", "C) Ella visita a sus primos", "D) Ella ve a sus abuelos a veces"],
+                answer: "A"
+            },
+            {
+                question: "7. Как переводится 'Мы планируем поездку в Испанию' на испанский?",
+                options: ["A) Estamos planeando un viaje a España", "B) Nos gusta viajar a España", "C) Quiero ir a España", "D) Estamos en España ahora"],
+                answer: "A"
+            },
+            {
+                question: "8. Как переводится 'Он работает в международной компании' на испанский?",
+                options: ["A) Él trabaja en una empresa local", "B) Él trabaja en una compañía internacional", "C) Él es arquitecto", "D) Él no trabaja en este momento"],
+                answer: "B"
+            },
+            {
+                question: "9. Как переводится 'Мы познакомились в университете' на испанский?",
+                options: ["A) Nos conocimos en la escuela", "B) Nos encontramos en la universidad", "C) Nos juntamos en la universidad", "D) Nos conocimos en un café"],
+                answer: "B"
+            },
+
+            {
+                question: "10. Как переводится 'Она отличный музыкальный учитель' на испанский?",
+                options: ["A) Ella es una buena profesora de música", "B) Ella enseña a tocar el piano", "C) Ella es una cantante famosa", "D) Le gusta la música"],
+                answer: "A"
+            },
+        ];
+
+        let currentQuestionIndex = 0;
+        let score = 0;
+
+        function loadQuestion() {
+            const currentQuestion = questions[currentQuestionIndex];
+            document.getElementById('question-text').innerText = currentQuestion.question;
+            const optionsContainer = document.getElementById('options-container');
+            optionsContainer.innerHTML = '';
+
+            currentQuestion.options.forEach((option, index) => {
+                const button = document.createElement('button');
+                button.innerText = option;
+                button.onclick = () => checkAnswer(String.fromCharCode(65 + index));
+                optionsContainer.appendChild(button);
+            });
+        }
+
+        function checkAnswer(selectedAnswer) {
+            const correctAnswer = questions[currentQuestionIndex].answer;
+            if (selectedAnswer === correctAnswer) {
+                score++;
+            }
+            currentQuestionIndex++;
+            if (currentQuestionIndex < questions.length) {
+                loadQuestion();
+            } else {
+                showResults();
+            }
+        }
+
+        function showResults() {
+            document.getElementById('question-container').style.display = 'none';
+            const resultContainer = document.getElementById('result-container');
+            resultContainer.style.display = 'block';
+            document.getElementById('result-text').innerText = 'Викторина завершена!';
+            document.getElementById('final-score').innerText = `Ваш результат: ${score} из ${questions.length}`;
+        }
+
+        function resetQuiz() {
+            currentQuestionIndex = 0;
+            score = 0;
+            document.getElementById('result-container').style.display = 'none';
+
+            document.getElementById('question-container').style.display = 'block';
+            loadQuestion();
+        }
+
+        // Запуск викторины при загрузке страницы
+        loadQuestion();
+    </script>
+</body>
+</html>

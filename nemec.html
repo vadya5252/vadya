@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="nemec.css">
+    <title>Интерактивная викторина по немецкому языку</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Интерактивная викторина по немецкому языку
+        (легкая сложность)</h1>
+        <div class="question" id="question-container">
+            <p id="question-text"></p>
+            <div class="options" id="options-container"></div>
+        </div>
+        <div class="result" id="result-container">
+            <p id="result-text"></p>
+            <p class="final-score" id="final-score"></p>
+            <button onclick="resetQuiz()">Попробовать снова</button>
+            <button><a href="index.html">Вернуться к другим тестам</a></button>
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                question: "1. Как переводится слово 'Haus'? ",
+                options: ["A) Квартира", "B) Дом", "C) Окно", "D) Комната"],
+                answer: "B"
+            },
+            {
+                question: "2. Что означает 'Auto'?",
+                options: ["A) Велосипед", "B) Машина", "C) Поезд", "D) Автобус"],
+                answer: "B"
+            },
+            {
+                question: "3. Как переводится 'Baum'?",
+                options: ["A) Лист", "B) Дерево", "C) Цветок", "D) Трава"],
+                answer: "B"
+            },
+            {
+                question: "4. Что такое 'Wasser'?",
+                options: ["A) Воздух", "B) Вода", "C) Огонь", "D) Земля"],
+                answer: "B"
+            },
+            {
+                question: "5. Как переводится слово 'Apfel'?",
+                options: ["A) Груша", "B) Яблоко", "C) Банан", "D) Вишня"],
+                answer: "B"
+            },
+            {
+                question: "6. Что означает 'Hund'?",
+                options: ["A) Кот", "B) Птица", "C) Собака", "D) Рыба"],
+                answer: "C"
+            },
+            {
+                question: "7. Как переводится 'Fisch'?",
+                options: ["A) Мясо", "B) Рыба", "C) Хлеб", "D) Масло"],
+                answer: "B"
+            },
+            {
+                question: "8. Что значит 'Stuhl'?",
+                options: ["A) Стол", "B) Стул", "C) Диван", "D) Кровать"],
+                answer: "B"
+            },
+            {
+                question: "9. Как переводится 'Buch'?",
+                options: ["A) Газета", "B) Журнал", "C) Книга", "D) Листок"],
+                answer: "C"
+            },
+
+            {
+                question: "10. Что означает 'Lehrer'?",
+                options: ["A) Ученик", "B) Учитель", "C) Студент", "D) Ветеринар"],
+                answer: "B"
+            },
+        ];
+
+        let currentQuestionIndex = 0;
+        let score = 0;
+
+        function loadQuestion() {
+            const currentQuestion = questions[currentQuestionIndex];
+            document.getElementById('question-text').innerText = currentQuestion.question;
+            const optionsContainer = document.getElementById('options-container');
+            optionsContainer.innerHTML = '';
+
+            currentQuestion.options.forEach((option, index) => {
+                const button = document.createElement('button');
+                button.innerText = option;
+                button.onclick = () => checkAnswer(String.fromCharCode(65 + index));
+                optionsContainer.appendChild(button);
+            });
+        }
+
+        function checkAnswer(selectedAnswer) {
+            const correctAnswer = questions[currentQuestionIndex].answer;
+            if (selectedAnswer === correctAnswer) {
+                score++;
+            }
+            currentQuestionIndex++;
+            if (currentQuestionIndex < questions.length) {
+                loadQuestion();
+            } else {
+                showResults();
+            }
+        }
+
+        function showResults() {
+            document.getElementById('question-container').style.display = 'none';
+            const resultContainer = document.getElementById('result-container');
+            resultContainer.style.display = 'block';
+            document.getElementById('result-text').innerText = 'Викторина завершена!';
+            document.getElementById('final-score').innerText = `Ваш результат: ${score} из ${questions.length}`;
+        }
+
+        function resetQuiz() {
+            currentQuestionIndex = 0;
+            score = 0;
+            document.getElementById('result-container').style.display = 'none';
+
+            document.getElementById('question-container').style.display = 'block';
+            loadQuestion();
+        }
+
+        // Запуск викторины при загрузке страницы
+        loadQuestion();
+    </script>
+</body>
+</html>

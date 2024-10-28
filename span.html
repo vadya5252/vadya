@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="span.css">
+    <title>Интерактивная викторина по испанскому языку</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Интерактивная викторина по испанскому языку
+        (легкая сложность)</h1>
+        <div class="question" id="question-container">
+            <p id="question-text"></p>
+            <div class="options" id="options-container"></div>
+        </div>
+        <div class="result" id="result-container">
+            <p id="result-text"></p>
+            <p class="final-score" id="final-score"></p>
+            <button onclick="resetQuiz()">Попробовать снова</button><button><a href="index.html">Вернуться к другим тестам</a></button>
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                question: "1. Как переводится 'мама' на испанский?",
+                options: ["A) Madre", "B) Padre", "C) Hermana", "D) Abuela"],
+                answer: "A"
+            },
+            {
+                question: "2. Как переводится 'отец' на испанский?",
+                options: ["A) Padre", "B) Madre", "C) Hermano", "D) Abuelo"],
+                answer: "A"
+            },
+            {
+                question: "3. Как переводится 'девочка' на испанский?",
+                options: ["A) Niño", "B)  Niña", "C) Joven", "D) Adulto"],
+                answer: "B"
+            },
+            {
+                question: "4. Как переводится 'мальчик' на испанский?",
+                options: ["A) Niño", "B) Niña", "C) Joven", "D) Adulto"],
+                answer: "A"
+            },
+            {
+                question: "5. Как переводится 'стол' на испанский?",
+                options: ["A) Mesa", "B) Silla", "C)  Cama", "D)  Sofá"],
+                answer: "A"
+            },
+            {
+                question: "6. Как переводится 'окно' на испанский?",
+                options: ["A) Ventana ", "B) Puerta", "C) Pared", "D) Techo "],
+                answer: "A"
+            },
+            {
+                question: "7. Как переводится 'компьютер' на испанский?",
+                options: ["A)  Computadora", "B) Televisión", "C) Mesa", "D) Roman"],
+                answer: "A"
+            },
+            {
+                question: "8. Как переводится 'фрукты' на испанский?",
+                options: ["A) Frutas", "B) Verduras", "C)  Adiós", "D) Soupe"],
+                answer: "A"
+            },
+            {
+                question: "9. Как переводится 'здравствуйте' на испанский?",
+                options: ["A) Hola", "B) Adiós", "C) Gracias", "D) Con permiso"],
+                answer: "A"
+            },
+
+            {
+                question: "10. Как переводится 'любовь' на испанский?",
+                options: ["A) Amor", "B) Odio", "C) Envidia", "D) Enojo"],
+                answer: "A"
+            },
+        ];
+
+        let currentQuestionIndex = 0;
+        let score = 0;
+
+        function loadQuestion() {
+            const currentQuestion = questions[currentQuestionIndex];
+            document.getElementById('question-text').innerText = currentQuestion.question;
+            const optionsContainer = document.getElementById('options-container');
+            optionsContainer.innerHTML = '';
+
+            currentQuestion.options.forEach((option, index) => {
+                const button = document.createElement('button');
+                button.innerText = option;
+                button.onclick = () => checkAnswer(String.fromCharCode(65 + index));
+                optionsContainer.appendChild(button);
+            });
+        }
+
+        function checkAnswer(selectedAnswer) {
+            const correctAnswer = questions[currentQuestionIndex].answer;
+            if (selectedAnswer === correctAnswer) {
+                score++;
+            }
+            currentQuestionIndex++;
+            if (currentQuestionIndex < questions.length) {
+                loadQuestion();
+            } else {
+                showResults();
+            }
+        }
+
+        function showResults() {
+            document.getElementById('question-container').style.display = 'none';
+            const resultContainer = document.getElementById('result-container');
+            resultContainer.style.display = 'block';
+            document.getElementById('result-text').innerText = 'Викторина завершена!';
+            document.getElementById('final-score').innerText = `Ваш результат: ${score} из ${questions.length}`;
+        }
+
+        function resetQuiz() {
+            currentQuestionIndex = 0;
+            score = 0;
+            document.getElementById('result-container').style.display = 'none';
+
+            document.getElementById('question-container').style.display = 'block';
+            loadQuestion();
+        }
+
+        // Запуск викторины при загрузке страницы
+        loadQuestion();
+    </script>
+</body>
+</html>

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="franc.css">
+    <title>Интерактивная викторина по французкому языку</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Интерактивная викторина по французкому языку
+        (тяжелая сложность)</h1>
+        <div class="question" id="question-container">
+            <p id="question-text"></p>
+            <div class="options" id="options-container"></div>
+        </div>
+        <div class="result" id="result-container">
+            <p id="result-text"></p>
+            <p class="final-score" id="final-score"></p>
+            <button onclick="resetQuiz()">Попробовать снова</button><button><a href="index.html">Вернуться к другим тестам</a></button>
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                question: "1. Как переводится 'Я люблю литературу'?",
+                options: ["A) J'aime la musique", "B) J'adore la littérature", "C) J'aime la littérature", "D) Je déteste la littérature"],
+                answer: "C"
+            },
+            {
+                question: "2. Как будет 'У меня есть брат'?",
+                options: ["A) Je n'ai pas de frère", "B)  J'ai une sœur", "C)  J'ai un frère", "D) J'ai une tante"],
+                answer: "C"
+            },
+            {
+                question: "3. Как переводится 'Где находится библиотека'?",
+                options: ["A) Où est la librairie ?", "B)  Où est la bibliothèque ?", "C) Où est le café ?", "D) Où est la maison ?"],
+                answer: "B"
+            },
+            {
+                question: "4. Как будет 'Я учусь французскому языку'?",
+                options: ["A) Je parle français", "B) J'apprends le français", "C)  J'étudie l'anglais", "D) Je lis un livre"],
+                answer: "B"
+            },
+            {
+                question: "5. Как переводится 'Это моя любимая книга'?",
+                options: ["A) C'est un livre", "B) C'est mon livre préféré", "C) C'est ma livre favorite", "D) C'est mon livre"],
+                answer: "B"
+            },
+            {
+                question: "6. Как будет 'Мы идем в кино'?",
+                options: ["A) Nous allons au théâtre", "B) Nous allons au cinéma", "C) Nous restons à la maison", "D) Nous allons au restaurant"],
+                answer: "B"
+            },
+            {
+                question: "7. Как переводится 'Какой сегодня день'?",
+                options: ["A) Quel jour est-ce ?", "B) Quelle est la date ?", "C) Quel est le mois ?", "D) Quel temps fait-il ?"],
+                answer: "A"
+            },
+            {
+                question: "8. Как будет 'Я люблю путешествовать'?",
+                options: ["A) J'adore voyager", "B)  J'aime rester ici", "C)Je préfère le train", "D) Je n'aime pas voyager"],
+                answer: "A"
+            },
+            {
+                question: "9. Как переводится 'Моя семья большая'?",
+                options: ["A) Ma famille est petite", "B) Ma famille est très gentille", "C) Ma famille est grande", "D) J'ai un petit frère"],
+                answer: "C"
+            },
+
+            {
+                question: "10. Как будет 'Ты где работаешь?'",
+                options: ["A) Tu es étudiant ?", "B) Tu travailles où ?", "C) Tu fais quoi ?", "D) Tu aimes travailler ?"],
+                answer: "B"
+            },
+        ];
+
+        let currentQuestionIndex = 0;
+        let score = 0;
+
+        function loadQuestion() {
+            const currentQuestion = questions[currentQuestionIndex];
+            document.getElementById('question-text').innerText = currentQuestion.question;
+            const optionsContainer = document.getElementById('options-container');
+            optionsContainer.innerHTML = '';
+
+            currentQuestion.options.forEach((option, index) => {
+                const button = document.createElement('button');
+                button.innerText = option;
+                button.onclick = () => checkAnswer(String.fromCharCode(65 + index));
+                optionsContainer.appendChild(button);
+            });
+        }
+
+        function checkAnswer(selectedAnswer) {
+            const correctAnswer = questions[currentQuestionIndex].answer;
+            if (selectedAnswer === correctAnswer) {
+                score++;
+            }
+            currentQuestionIndex++;
+            if (currentQuestionIndex < questions.length) {
+                loadQuestion();
+            } else {
+                showResults();
+            }
+        }
+
+        function showResults() {
+            document.getElementById('question-container').style.display = 'none';
+            const resultContainer = document.getElementById('result-container');
+            resultContainer.style.display = 'block';
+            document.getElementById('result-text').innerText = 'Викторина завершена!';
+            document.getElementById('final-score').innerText = `Ваш результат: ${score} из ${questions.length}`;
+        }
+
+        function resetQuiz() {
+            currentQuestionIndex = 0;
+            score = 0;
+            document.getElementById('result-container').style.display = 'none';
+
+            document.getElementById('question-container').style.display = 'block';
+            loadQuestion();
+        }
+
+        // Запуск викторины при загрузке страницы
+        loadQuestion();
+    </script>
+</body>
+</html>

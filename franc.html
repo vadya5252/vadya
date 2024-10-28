@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="franc.css">
+    <title>Интерактивная викторина по французкому языку</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Интерактивная викторина по французкому языку
+        (легкая сложность)</h1>
+        <div class="question" id="question-container">
+            <p id="question-text"></p>
+            <div class="options" id="options-container"></div>
+        </div>
+        <div class="result" id="result-container">
+            <p id="result-text"></p>
+            <p class="final-score" id="final-score"></p>
+            <button onclick="resetQuiz()">Попробовать снова</button><button><a href="index.html">Вернуться к другим тестам</a></button>
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                question: "1. Как переводится 'дом' на французский?",
+                options: ["A) Maison  ", "B) Château", "C) Appartement", "D) Hôtel"],
+                answer: "A"
+            },
+            {
+                question: "2. Как переводится 'друзья' на французский?",
+                options: ["A) Amis ", "B) Famille", "C) Enemies", "D) Connaissances"],
+                answer: "A"
+            },
+            {
+                question: "3. Как переводится 'яблоко' на французский?",
+                options: ["A) Cerise", "B)  Pomme", "C) Fraise", "D) Prune"],
+                answer: "B"
+            },
+            {
+                question: "4. Как переводится 'собака' на французский?",
+                options: ["A) Chat", "B) Oiseau", "C) Chien", "D) Cheval"],
+                answer: "C"
+            },
+            {
+                question: "5. Как переводится 'школа' на французский?",
+                options: ["A) Université", "B) École", "C) Collège", "D) Lycée"],
+                answer: "B"
+            },
+            {
+                question: "6. Как переводится 'машина' на французский?",
+                options: ["A) Bus", "B) Voiture", "C) Moto", "D) Camion"],
+                answer: "B"
+            },
+            {
+                question: "7. Как переводится 'книга' на французский?",
+                options: ["A) Revue", "B) Livre", "C) Magazine", "D) Roman"],
+                answer: "B"
+            },
+            {
+                question: "8. Как переводится 'воды' (вода) на французский?",
+                options: ["A) Jus", "B) Eau", "C)  Lait", "D) Soupe"],
+                answer: "B"
+            },
+            {
+                question: "9. Как переводится 'цветок' на французский?",
+                options: ["A) Arbre", "B) Fleur", "C) Plante", "D) Herbe"],
+                answer: "B"
+            },
+
+            {
+                question: "10. Как переводится 'город' на французский?",
+                options: ["A) Village", "B) Ville", "C) Metropole", "D) Quartier"],
+                answer: "B"
+            },
+        ];
+
+        let currentQuestionIndex = 0;
+        let score = 0;
+
+        function loadQuestion() {
+            const currentQuestion = questions[currentQuestionIndex];
+            document.getElementById('question-text').innerText = currentQuestion.question;
+            const optionsContainer = document.getElementById('options-container');
+            optionsContainer.innerHTML = '';
+
+            currentQuestion.options.forEach((option, index) => {
+                const button = document.createElement('button');
+                button.innerText = option;
+                button.onclick = () => checkAnswer(String.fromCharCode(65 + index));
+                optionsContainer.appendChild(button);
+            });
+        }
+
+        function checkAnswer(selectedAnswer) {
+            const correctAnswer = questions[currentQuestionIndex].answer;
+            if (selectedAnswer === correctAnswer) {
+                score++;
+            }
+            currentQuestionIndex++;
+            if (currentQuestionIndex < questions.length) {
+                loadQuestion();
+            } else {
+                showResults();
+            }
+        }
+
+        function showResults() {
+            document.getElementById('question-container').style.display = 'none';
+            const resultContainer = document.getElementById('result-container');
+            resultContainer.style.display = 'block';
+            document.getElementById('result-text').innerText = 'Викторина завершена!';
+            document.getElementById('final-score').innerText = `Ваш результат: ${score} из ${questions.length}`;
+        }
+
+        function resetQuiz() {
+            currentQuestionIndex = 0;
+            score = 0;
+            document.getElementById('result-container').style.display = 'none';
+
+            document.getElementById('question-container').style.display = 'block';
+            loadQuestion();
+        }
+
+        // Запуск викторины при загрузке страницы
+        loadQuestion();
+    </script>
+</body>
+</html>

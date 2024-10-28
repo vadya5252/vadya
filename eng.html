@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="eng.css">
+    <title>Интерактивная викторина по английскому языку</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Интерактивная викторина по английскому языку
+        (легкая сложность)</h1>
+        <div class="question" id="question-container">
+            <p id="question-text"></p>
+            <div class="options" id="options-container"></div>
+        </div>
+        <div class="result" id="result-container">
+            <p id="result-text"></p>
+            <p class="final-score" id="final-score"></p>
+            <button onclick="resetQuiz()">Попробовать снова</button><button><a href="index.html">Вернуться к другим тестам</a></button>
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                question: "1. 'Good morning' переводится как",
+                options: ["A) Доброе утро", "B) Добрый вечер", "C) Доброй ночи", "D) Привет"],
+                answer: "A"
+            },
+            {
+                question: "2. 'Thank you' переводится как:",
+                options: ["A) Пожалуйста", "B) Спасибо", "C) Извините", "D) Привет"],
+                answer: "B"
+            },
+            {
+                question: "3. 'How are you?' переводится как",
+                options: ["A) Как дела?", "B) Что нового?", "C) Как вас зовут?", "D) Где вы живете?"],
+                answer: "A"
+            },
+            {
+                question: "4. 'I love you' переводится как",
+                options: ["A) Я люблю тебя", "B) Я люблю вас", "C) Я тебя ненавижу", "D) Я скучаю по тебе"],
+                answer: "A"
+            },
+            {
+                question: "5. 'What is your name?' переводится как:",
+                options: ["A) Сколько тебе лет?", "B) Как тебя зовут?", "C) Где ты работаешь?", "D) Как дела?"],
+                answer: "B"
+            },
+            {
+                question: "6. 'Goodbye' переводится как",
+                options: ["A) Привет", "B) До свидания", "C) Пожалуйста", "D) Извините"],
+                answer: "B"
+            },
+            {
+                question: "7. 'Excuse me' переводится как:",
+                options: ["A) Спасибо", "B) Извините", "C) Пожалуйста", "D) Привет"],
+                answer: "B"
+            },
+            {
+                question: "8. 'See you later' переводится как:",
+                options: ["A) Увидимся позже", "B) До свидания", "C) Спокойной ночи", "D) Хорошего дня"],
+                answer: "A"
+            },
+            {
+                question: "9. 'Have a nice day' переводится как:",
+                options: ["A) Хорошего дня", "B) Спокойной ночи", "C) Приятного аппетита", "D) Удачи"],
+                answer: "A"
+            },
+
+            {
+                question: "10. 'Where is the bathroom?' переводится как:",
+                options: ["A) Где ваша комната?", "B) Где здесь туалет?", "C) Где кухня?", "D) Где деньги?"],
+                answer: "B"
+            },
+            
+        ];
+
+        let currentQuestionIndex = 0;
+        let score = 0;
+
+        function loadQuestion() {
+            const currentQuestion = questions[currentQuestionIndex];
+            document.getElementById('question-text').innerText = currentQuestion.question;
+            const optionsContainer = document.getElementById('options-container');
+            optionsContainer.innerHTML = '';
+
+            currentQuestion.options.forEach((option, index) => {
+                const button = document.createElement('button');
+                button.innerText = option;
+                button.onclick = () => checkAnswer(String.fromCharCode(65 + index));
+                optionsContainer.appendChild(button);
+            });
+        }
+
+        function checkAnswer(selectedAnswer) {
+            const correctAnswer = questions[currentQuestionIndex].answer;
+            if (selectedAnswer === correctAnswer) {
+                score++;
+            }
+            currentQuestionIndex++;
+            if (currentQuestionIndex < questions.length) {
+                loadQuestion();
+            } else {
+                showResults();
+            }
+        }
+
+        function showResults() {
+            document.getElementById('question-container').style.display = 'none';
+            const resultContainer = document.getElementById('result-container');
+            resultContainer.style.display = 'block';
+            document.getElementById('result-text').innerText = 'Викторина завершена!';
+            document.getElementById('final-score').innerText = `Ваш результат: ${score} из ${questions.length}`;
+        }
+
+        function resetQuiz() {
+            currentQuestionIndex = 0;
+            score = 0;
+            document.getElementById('result-container').style.display = 'none';
+
+            document.getElementById('question-container').style.display = 'block';
+            loadQuestion();
+        }
+
+        // Запуск викторины при загрузке страницы
+        loadQuestion();
+    </script>
+</body>
+</html>
+
+

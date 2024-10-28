@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <link rel="stylesheet" type="text/css" href="index.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Викторина по иностранным языкам</title>
+</head>
+<body>
+    <div id="intro">
+        <h1>Добро пожаловать в Викторину иностранных языков!</h1>
+        <p>Проверьте свои знания иностранных языков.</p>
+    </div>
+
+    <header>
+        <h1>Викторина по иностранным языкам</h1>
+    </header>
+
+    <main>
+        <section class="quiz-block" class="q1">
+            <h2><p>Английский язык</p>
+</h2>
+            <button onclick="startQuiz('английскому', 'легкий')"><a href="eng.html">Легкий</a></button>
+            <button onclick="startQuiz('английскому', 'Тяжелый')"><a href="eng2.html">Тяжелый</a></button>
+        </section>
+        <section class="quiz-block">
+            <h2>Польский язык</h2>
+            <button onclick="startQuiz('польскому', 'легкий')"><a href="kurwa.html">Легкий</a></button>
+            <button onclick="startQuiz('польскому', 'Тяжелый')"><a href="kurwa2.html">Тяжелый</a></button>
+        </section>
+        <section class="quiz-block">
+            <h2>Французский язык</h2>
+            <button onclick="startQuiz('французкому', 'легкий')"><a href="franc.html">Легкий</a></button>
+            <button onclick="startQuiz('французкому', 'Тяжелый')"><a href="franc2.html">Тяжелый</a></button>
+        </section>
+        <section class="quiz-block">
+            <h2>Немецкий язык</h2>
+            <button onclick="startQuiz('немецкому', 'легкий')"><a href="nemec.html">Легкий</a></button>
+            <button onclick="startQuiz('немецкому', 'Тяжелый')"><a href="nemec2.html">Тяжелый</a></button>
+        </section>
+        <section class="quiz-block">
+            <h2>Испанский<br>язык</h2>
+            <button onclick="startQuiz('испанскому', 'легкий')"><a href="span.html">Легкий</a></button>
+            <button onclick="startQuiz('испанскому', 'Тяжелый')"><a href="span2.html">Тяжелый</a></button>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Викторина по иностранным языкам</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(() => {
+                document.getElementById('intro').style.display = 'none';
+            }, 4000); // Закрыть интро через 3 секунды
+        });
+
+        function startQuiz(language, difficulty) {
+            alert(`Начинаем викторину по ${language} на уровне сложности: ${difficulty}`);
+            // Здесь можно добавить логику для запуска самой викторины
+        }
+    </script>
+</body>
+</html>

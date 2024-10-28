@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="kurwa.css">
+    <title>Интерактивная викторина по польскому языку</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Интерактивная викторина по польскому языку
+        (легкая сложность)</h1>
+        <div class="question" id="question-container">
+            <p id="question-text"></p>
+            <div class="options" id="options-container"></div>
+        </div>
+        <div class="result" id="result-container">
+            <p id="result-text"></p>
+            <p class="final-score" id="final-score"></p>
+            <button onclick="resetQuiz()">Попробовать снова</button>
+            <button><a href="index.html">Вернуться к другим тестам</a></button>
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                question: "1. Какой это перевод на польский: 'Здравствуйте'?",
+                options: ["A) Cześć", "B) Dzień dobry", "C) Dobry wieczór", "D) Witaj"],
+                answer: "B"
+            },
+            {
+                question: "2. Какой это перевод на польский: 'Спасибо'?",
+                options: ["A) Dziękuję", "B) Proszę", "C) Tak", "D) Nie"],
+                answer: "A"
+            },
+            {
+                question: "3. Какой это перевод на польский: 'Да'?",
+                options: ["A) Nie", "B) Może", "C) Tak", "D) Zawsze"],
+                answer: "C"
+            },
+            {
+                question: "4. Какой это перевод на польский: 'Нет'?",
+                options: ["A) Tak", "B) Nie", "C) Proszę", "D) Dziękuję"],
+                answer: "B"
+            },
+            {
+                question: "5. Какой это перевод на польский: 'Пожалуйста'?",
+                options: ["A) Dziękuję", "B) Proszę", "C) Cześć", "D) Witaj"],
+                answer: "B"
+            },
+            {
+                question: "6. Какой это перевод на польский: 'Извините'?",
+                options: ["A) Przepraszam", "B) Dziękuję", "C) Proszę", "D) Cześć"],
+                answer: "A"
+            },
+            {
+                question: "7. Какой это перевод на польский: 'Хорошо'?",
+                options: ["A) Źle", "B) Dobrze", "C) Bardzo dobrze", "D) Dzięki"],
+                answer: "B"
+            },
+            {
+                question: "8. Какой это перевод на польский: 'Я не понимаю'?",
+                options: ["A) Nie rozumiem", "B) Rozumiem", "C) Prosze", "D) TNie wiem"],
+                answer: "A"
+            },
+            {
+                question: "9. Какой это перевод на польский: 'Я люблю тебя'?",
+                options: ["A) Lubię cię", "B) Kocham cię", "C) Cześć", "D) Dzień dobry"],
+                answer: "B"
+            },
+
+            {
+                question: "10. Какой это перевод на польский: 'Где?'?",
+                options: ["A) Kiedy?", "B) Gdzie?", "C) Dlaczego?", "D) Jak?"],
+                answer: "B"
+            },
+
+        ];
+
+        let currentQuestionIndex = 0;
+        let score = 0;
+
+        function loadQuestion() {
+            const currentQuestion = questions[currentQuestionIndex];
+            document.getElementById('question-text').innerText = currentQuestion.question;
+            const optionsContainer = document.getElementById('options-container');
+            optionsContainer.innerHTML = '';
+
+            currentQuestion.options.forEach((option, index) => {
+                const button = document.createElement('button');
+                button.innerText = option;
+                button.onclick = () => checkAnswer(String.fromCharCode(65 + index));
+                optionsContainer.appendChild(button);
+            });
+        }
+
+        function checkAnswer(selectedAnswer) {
+            const correctAnswer = questions[currentQuestionIndex].answer;
+            if (selectedAnswer === correctAnswer) {
+                score++;
+            }
+            currentQuestionIndex++;
+            if (currentQuestionIndex < questions.length) {
+                loadQuestion();
+            } else {
+                showResults();
+            }
+        }
+
+        function showResults() {
+            document.getElementById('question-container').style.display = 'none';
+            const resultContainer = document.getElementById('result-container');
+            resultContainer.style.display = 'block';
+            document.getElementById('result-text').innerText = 'Викторина завершена!';
+            document.getElementById('final-score').innerText = `Ваш результат: ${score} из ${questions.length}`;
+        }
+
+        function resetQuiz() {
+            currentQuestionIndex = 0;
+            score = 0;
+            document.getElementById('result-container').style.display = 'none';
+
+            document.getElementById('question-container').style.display = 'block';
+            loadQuestion();
+        }
+
+        // Запуск викторины при загрузке страницы
+        loadQuestion();
+    </script>
+</body>
+</html>
+
+

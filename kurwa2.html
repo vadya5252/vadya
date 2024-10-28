@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="kurwa.css">
+    <title>Интерактивная викторина по польскому языку</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Интерактивная викторина по польскому языку
+        (тяжелая сложность)</h1>
+        <div class="question" id="question-container">
+            <p id="question-text"></p>
+            <div class="options" id="options-container"></div>
+        </div>
+        <div class="result" id="result-container">
+            <p id="result-text"></p>
+            <p class="final-score" id="final-score"></p>
+            <button onclick="resetQuiz()">Попробовать снова</button>
+            <button><a href="index.html">Вернуться к другим тестам</a></button>
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                question: "1. Как сказать 'Я живу в Варшаве'?",
+                options: ["A) Mieszkam w Warszawie", "B) Jestem z Warszawy", "C) Pracuję w Warszawie", "D) Lubię Warszawę"],
+                answer: "A"
+            },
+            {
+                question: "2. Как перевести 'У меня есть две собаки'?",
+                options: ["A) Mam jednego psa", "B) Mam dwie psy", "C) Mam dwa psy", "D) Mam dwie psy"],
+                answer: "C"
+            },
+            {
+                question: "3. Что значит 'Я учу польский язык'?",
+                options: ["A) Uczę się języka polskiego", "B) Mówię po polsku", "C) Lubię język polski", "D) Rozumiem język polski"],
+                answer: "A"
+            },
+            {
+                question: "4. Как спросить 'Где находится ближайшая аптека'?",
+                options: ["A) Gdzie jest najbliższa apteka?", "B)  Jak się nazywa apteka?", "C) Kiedy zamykają aptekę?", "D) Co sprzedają w aptece?"],
+                answer: "A"
+            },
+            {
+                question: "5. Как сказать 'Мне нравится этот фильм'?",
+                options: ["A) Lubię ten film", "B) Oglądam ten film", "C) Filmi są dobre", "D) Ten film jest nudny"],
+                answer: "A"
+            },
+            {
+                question: "6. Как перевести 'Я работаю учителем в школе'?",
+                options: ["A) Pracuję nauczycielem w szkole", "B) Uczę dzieci w domu", "C) Mam pracę w biurze", "D) Uczę się w szkole"],
+                answer: "A"
+            },
+            {
+                question: "7. Что значит 'Мы собираемся в отпуск на море'?",
+                options: ["A) Mamy wakacje w górach", "B) Jedziemy na wakacje nad morze", "C) Lubię chodzić na plażę", "D) Mieszkamy nad morzem"],
+                answer: "B"
+            },
+            {
+                question: "8. Как сказать 'У меня есть много друзей'?",
+                options: ["A) Mam wielu przyjaciół", "B) Szukam nowych przyjaciół", "C) Lubię spędzać czas", "D) Moi przyjaciele są wspaniali"],
+                answer: "A"
+            },
+            {
+                question: "9. Как перевести 'Мы будем отдыхать cały weekend'?",
+                options: ["A) Odpoczywamy przez cały weekend", "B) Będziemy pracować w weekend", "C) Spędzamy czas w weekend", "D) Kupujemy bilety na weekend"],
+                answer: "A"
+            },
+
+            {
+                question: "10. Что значит 'За окном идет дождь'?",
+                options: ["A) Jest piękna pogoda", "B) Pada deszcz za oknem", "C) Widzimy słońce", "D) Mamy burzę dzisiaj"],
+                answer: "B"
+            },
+
+        ];
+
+        let currentQuestionIndex = 0;
+        let score = 0;
+
+        function loadQuestion() {
+            const currentQuestion = questions[currentQuestionIndex];
+            document.getElementById('question-text').innerText = currentQuestion.question;
+            const optionsContainer = document.getElementById('options-container');
+            optionsContainer.innerHTML = '';
+
+            currentQuestion.options.forEach((option, index) => {
+                const button = document.createElement('button');
+                button.innerText = option;
+                button.onclick = () => checkAnswer(String.fromCharCode(65 + index));
+                optionsContainer.appendChild(button);
+            });
+        }
+
+        function checkAnswer(selectedAnswer) {
+            const correctAnswer = questions[currentQuestionIndex].answer;
+            if (selectedAnswer === correctAnswer) {
+                score++;
+            }
+            currentQuestionIndex++;
+            if (currentQuestionIndex < questions.length) {
+                loadQuestion();
+            } else {
+                showResults();
+            }
+        }
+
+        function showResults() {
+            document.getElementById('question-container').style.display = 'none';
+            const resultContainer = document.getElementById('result-container');
+            resultContainer.style.display = 'block';
+            document.getElementById('result-text').innerText = 'Викторина завершена!';
+            document.getElementById('final-score').innerText = `Ваш результат: ${score} из ${questions.length}`;
+        }
+
+        function resetQuiz() {
+            currentQuestionIndex = 0;
+            score = 0;
+            document.getElementById('result-container').style.display = 'none';
+
+            document.getElementById('question-container').style.display = 'block';
+            loadQuestion();
+        }
+
+        // Запуск викторины при загрузке страницы
+        loadQuestion();
+    </script>
+</body>
+</html>
